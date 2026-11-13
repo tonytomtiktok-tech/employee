@@ -1,13 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { getShellData } from "@/lib/auth/server-data";
+import { useApp } from "@/components/providers/AppProvider";
 import { memoryRepository } from "@/lib/repository/memory";
 import { hasRole } from "@/lib/permissions/roles";
 
-export default async function TeamReviewsPage() {
-  const { user, roles, actor } = await getShellData();
+export default function TeamReviewsPage() {
+  const { user, roles, actor } = useApp();
   const can = hasRole(actor.roles, "MANAGER") || hasRole(actor.roles, "HR_ADMIN");
   const cases = can
     ? memoryRepository.listCasesForManager(actor.user.userId).map((c) => ({

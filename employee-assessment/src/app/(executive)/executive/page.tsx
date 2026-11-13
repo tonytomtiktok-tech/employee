@@ -1,17 +1,19 @@
+"use client";
+
 import { AppShell } from "@/components/layout/AppShell";
 import { KpiCards } from "@/components/dashboard/KpiCards";
 import { ScoreDistribution } from "@/components/dashboard/ScoreDistribution";
 import { TrendChart } from "@/components/dashboard/TrendChart";
 import { OrgDrilldown } from "@/components/dashboard/OrgDrilldown";
 import { TalentMatrix } from "@/components/dashboard/TalentMatrix";
-import { getShellData } from "@/lib/auth/server-data";
+import { Card } from "@/components/ui/card";
+import { useApp } from "@/components/providers/AppProvider";
 import { getDashboardDrilldown, getDashboardSummary } from "@/lib/services/dashboard";
 import { memoryRepository } from "@/lib/repository/memory";
 import { hasAnyRole } from "@/lib/permissions/roles";
-import { Card } from "@/components/ui/card";
 
-export default async function ExecutivePage() {
-  const { user, roles, actor } = await getShellData();
+export default function ExecutivePage() {
+  const { user, roles, actor } = useApp();
   const can = hasAnyRole(actor.roles, ["EXECUTIVE", "HR_ADMIN"]);
   const cycle = memoryRepository.getCurrentCycle();
 
@@ -34,8 +36,7 @@ export default async function ExecutivePage() {
     talentSegment: string | null;
   }[] = [];
   try {
-    const drill = getDashboardDrilldown(actor, cycle.cycleId);
-    people = drill.people;
+    people = getDashboardDrilldown(actor, cycle.cycleId).people;
   } catch {
     people = [];
   }
@@ -46,7 +47,7 @@ export default async function ExecutivePage() {
         <header>
           <h1 className="font-display text-3xl font-semibold">แดชบอร์ดผู้บริหาร</h1>
           <p className="mt-2 text-sm text-muted">
-            {cycle.name} · แสดงเฉพาะผลที่เผยแพร่แล้ว · ไม่ใช้คะแนนเป็นตัวชี้วัดคุณค่าบุคคลโดยสิ้นเชิง
+            {cycle.name} · แสดงเฉพาะผลที่เผยแพร่แล้ว
           </p>
         </header>
         <KpiCards totals={summary.totals} />
@@ -62,12 +63,6 @@ export default async function ExecutivePage() {
           <OrgDrilldown people={people} />
           <TalentMatrix />
         </div>
-        {summary.metrics.mean != null ? (
-          <p className="text-sm text-muted">
-            ค่าเฉลี่ย {summary.metrics.mean} · มัธยฐาน {summary.metrics.median} · N ={" "}
-            {summary.metrics.N}
-          </p>
-        ) : null}
       </div>
     </AppShell>
   );

@@ -7,6 +7,11 @@ import {
   downloadRosterTemplate,
   parseRosterExcel,
 } from "@/lib/admin/excel-roster";
+import { requireActorSync } from "@/lib/auth/client-session";
+import {
+  createRosterUser,
+  importRosterRows,
+} from "@/lib/services/admin-users";
 import type { RosterRole } from "@/types";
 
 export type RosterUserRow = {
@@ -42,12 +47,14 @@ const TABS: { key: TabKey; title: string; hint: string }[] = [
 
 export function AdminUsersClient({
   initial,
+  onChanged,
 }: {
   initial: {
     employees: RosterUserRow[];
     managers: RosterUserRow[];
     committee: RosterUserRow[];
   };
+  onChanged?: () => void;
 }) {
   const [employees, setEmployees] = useState(initial.employees);
   const [managers, setManagers] = useState(initial.managers);
@@ -74,31 +81,28 @@ export function AdminUsersClient({
     else setEmployees((prev) => [...prev, user].sort(byCode));
   }
 
-  async function addUser() {
+  function addUser() {
     setBusy(true);
     setError(null);
     setMessage(null);
-    const res = await fetch("/api/admin/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      const user = createRosterUser(requireActorSync(), {
         employeeCode: code,
         displayName: name,
         password: password || undefined,
         role: tab,
-      }),
-    });
-    const data = await res.json();
-    setBusy(false);
-    if (!res.ok) {
-      setError(data.error ?? "เพิ่มผู้ใช้ไม่สำเร็จ");
-      return;
+      });
+      pushRow(user);
+      setCode("");
+      setPassword("");
+      setName("");
+      setMessage(`เพิ่ม ${user.displayName} เป็น${user.roleLabel} แล้ว`);
+      onChanged?.();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "เพิ่มผู้ใช้ไม่สำเร็จ");
+    } finally {
+      setBusy(false);
     }
-    pushRow(data.user);
-    setCode("");
-    setPassword("");
-    setName("");
-    setMessage(`เพิ่ม ${data.user.displayName} เป็น${data.user.roleLabel} แล้ว`);
   }
 
   async function onExcelSelected(file: File | null) {
@@ -114,18 +118,8 @@ export function AdminUsersClient({
         setBusy(false);
         return;
       }
-      const res = await fetch("/api/admin/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rows: parsed }),
-      });
-      const data = await res.json();
-      setBusy(false);
-      if (!res.ok) {
-        setError(data.error ?? "นำเข้าไม่สำเร็จ");
-        return;
-      }
-      for (const user of data.accepted as RosterUserRow[]) pushRow(user);
+      const data = importRosterRows(requireActorSync(), parsed);
+      for (const user of data.accepted) pushRow(user);
       setMessage(
         `นำเข้าสำเร็จ ${data.accepted.length} รายการ` +
           (data.rejected?.length
@@ -137,16 +131,17 @@ export function AdminUsersClient({
           data.rejected
             .slice(0, 5)
             .map(
-              (r: { reason: string; row: { employeeCode?: string } }) =>
-                `${r.row?.employeeCode ?? "?"} — ${r.reason}`,
+              (r) =>
+                `${(r.row as { employeeCode?: string })?.employeeCode ?? "?"} — ${r.reason}`,
             )
             .join("; "),
         );
       }
+      onChanged?.();
     } catch {
-      setBusy(false);
       setError("อ่านไฟล์ Excel ไม่สำเร็จ");
     } finally {
+      setBusy(false);
       if (fileRef.current) fileRef.current.value = "";
     }
   }

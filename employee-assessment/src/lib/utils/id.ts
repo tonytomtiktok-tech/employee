@@ -1,9 +1,10 @@
-import { randomUUID } from "crypto";
-
 export function newId(): string {
-  return randomUUID();
+  if (typeof globalThis.crypto?.randomUUID === "function") {
+    return globalThis.crypto.randomUUID();
+  }
+  return `id_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 }
 
 export function newRequestId(): string {
-  return `req_${randomUUID()}`;
+  return `req_${newId()}`;
 }

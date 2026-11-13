@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import type { AssessmentCase, FormSchema, Stage } from "@/types";
 import { FormRenderer } from "./FormRenderer";
 import { FormStepper } from "./FormStepper";
@@ -9,6 +8,9 @@ import { SubmissionConfirm } from "./SubmissionConfirm";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/badge";
 import { isDraftWritable } from "@/lib/workflow/states";
+import { saveDraft as saveDraftService, submitStage } from "@/lib/services/cases";
+import { useApp } from "@/components/providers/AppProvider";
+import { newId } from "@/lib/utils/id";
 
 export function AssessmentFormClient({
   assessmentCase,
@@ -29,7 +31,7 @@ export function AssessmentFormClient({
   deadline?: string;
   extraTop?: React.ReactNode;
 }) {
-  const router = useRouter();
+  const { actor, refresh } = useApp();
   const [answers, setAnswers] = useState(initialAnswers);
   const [sectionIndex, setSectionIndex] = useState(0);
   const [status, setStatus] = useState(assessmentCase.status);
@@ -59,55 +61,47 @@ export function AssessmentFormClient({
     return map;
   }, [schema, answers]);
 
-  async function saveDraft() {
+  function saveDraft() {
     setSaveState("saving");
-    const res = await fetch(`/api/cases/${assessmentCase.caseId}/draft`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      const updated = saveDraftService(
+        actor,
+        assessmentCase.caseId,
         stage,
         answers,
-        expectedVersion: version,
-      }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
+        version,
+      );
+      setStatus(updated.status);
+      setVersion(updated.version);
+      setSaveState("saved");
+      refresh();
+    } catch (e) {
       setSaveState("error");
-      setMessage(data.error ?? "บันทึกร่างไม่สำเร็จ");
-      return;
+      setMessage(e instanceof Error ? e.message : "บันทึกร่างไม่สำเร็จ");
     }
-    setStatus(data.case.status);
-    setVersion(data.case.version);
-    setSaveState("saved");
   }
 
-  async function submit() {
+  function submit() {
     setBusy(true);
-    const idempotencyKey =
-      typeof crypto !== "undefined" && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `idem-${Date.now()}`;
-    const res = await fetch(`/api/cases/${assessmentCase.caseId}/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      const result = submitStage(
+        actor,
+        assessmentCase.caseId,
         stage,
         answers,
-        expectedVersion: version,
-        idempotencyKey,
-      }),
-    });
-    const data = await res.json();
-    setBusy(false);
-    setConfirmOpen(false);
-    if (!res.ok) {
-      setMessage(data.error ?? "ส่งไม่สำเร็จ");
-      return;
+        version,
+        newId(),
+      );
+      setStatus(result.case.status);
+      setVersion(result.case.version);
+      setMessage(`ส่งสำเร็จ รหัสใบรับ: ${result.submission.submissionId}`);
+      refresh();
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "ส่งไม่สำเร็จ");
+    } finally {
+      setBusy(false);
+      setConfirmOpen(false);
     }
-    setStatus(data.case.status);
-    setVersion(data.case.version);
-    setMessage(`ส่งสำเร็จ รหัสใบรับ: ${data.submission.submissionId}`);
-    router.refresh();
   }
 
   return (
@@ -120,7 +114,9 @@ export function AssessmentFormClient({
           </h1>
           <p className="mt-1 text-sm text-muted">
             {employeeName}
-            {deadline ? ` · กำหนดส่ง ${new Date(deadline).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}` : ""}
+            {deadline
+              ? ` · กำหนดส่ง ${new Date(deadline).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}`
+              : ""}
           </p>
         </div>
         <div className="flex items-center gap-3">

@@ -6,7 +6,15 @@ Next.js implementation of `EMPLOYEE_ASSESSMENT_GOOGLE_SHEETS_ARCHITECTURE.md`.
 
 **Phase 0 (+ core of Phase 1–6 scaffolding):** UI shell, 200 fake users in an in-memory repository, role-based pages, JSON mock forms, workflow/permission services, API route handlers, and unit tests. Google Sheets adapter and real SSO are stubbed for later phases.
 
-## Quick start
+## Live website (GitHub Pages)
+
+หลัง push ไป `main` workflow จะ build และเผยแพร่ที่:
+
+**https://tonytomtiktok-tech.github.io/employee/**
+
+ครั้งแรกให้เปิด GitHub → **Settings → Pages → Source = GitHub Actions**
+
+## Quick start (local)
 
 ```bash
 cd employee-assessment
@@ -15,6 +23,10 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) then go to **สลับบัญชีเดโม** (`/login`).
+
+```bash
+npm run build:pages   # static export for GitHub Pages
+```
 
 | บทบาท | อีเมลเดโม |
 |---|---|

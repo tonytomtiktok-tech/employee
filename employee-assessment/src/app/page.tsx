@@ -1,13 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
-import { getShellData } from "@/lib/auth/server-data";
+import { StatusBadge } from "@/components/ui/badge";
+import { useApp } from "@/components/providers/AppProvider";
 import { memoryRepository } from "@/lib/repository/memory";
 import { getMyCases } from "@/lib/services/cases";
-import { StatusBadge } from "@/components/ui/badge";
 
-export default async function HomePage() {
-  const { user, roles, actor } = await getShellData();
+export default function HomePage() {
+  const { user, roles, actor } = useApp();
   const cycle = memoryRepository.getCurrentCycle();
   const myCases = getMyCases(actor);
   const store = memoryRepository.getStore();
@@ -21,8 +23,7 @@ export default async function HomePage() {
             {user.displayName}
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            แพลตฟอร์มประเมินพนักงานรอบ {cycle?.name} — ใช้บัญชีเดโมสลับบทบาทได้ที่หน้าเข้าสู่ระบบ
-            ข้อมูลอยู่ใน memory repository (Phase 0) ยังไม่เชื่อม Google Sheets
+            แพลตฟอร์มประเมินพนักงานรอบ {cycle?.name} — สลับบัญชีเดโมได้ที่หน้าเข้าสู่ระบบ
           </p>
         </header>
 
@@ -50,23 +51,19 @@ export default async function HomePage() {
         <Card>
           <h2 className="font-display text-lg font-semibold">เคสของฉัน</h2>
           <div className="mt-4 space-y-3">
-            {myCases.length === 0 ? (
-              <p className="text-sm text-muted">ไม่พบเคส</p>
-            ) : (
-              myCases.map((c) => (
-                <Link
-                  key={c.caseId}
-                  href={`/my-assessment/${c.caseId}`}
-                  className="flex items-center justify-between rounded-xl border border-border px-4 py-3 hover:bg-slate-50"
-                >
-                  <div>
-                    <p className="text-sm font-medium">{c.caseId}</p>
-                    <p className="text-xs text-muted">{cycle?.name}</p>
-                  </div>
-                  <StatusBadge status={c.status} />
-                </Link>
-              ))
-            )}
+            {myCases.map((c) => (
+              <Link
+                key={c.caseId}
+                href={`/my-assessment/${c.caseId}`}
+                className="flex items-center justify-between rounded-xl border border-border px-4 py-3 hover:bg-slate-50"
+              >
+                <div>
+                  <p className="text-sm font-medium">{c.caseId}</p>
+                  <p className="text-xs text-muted">{cycle?.name}</p>
+                </div>
+                <StatusBadge status={c.status} />
+              </Link>
+            ))}
           </div>
         </Card>
       </div>

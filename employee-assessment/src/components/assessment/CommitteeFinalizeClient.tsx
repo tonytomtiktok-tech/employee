@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import type { AssessmentCase, FormSchema } from "@/types";
 import { FormRenderer } from "./FormRenderer";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/badge";
 import { CommitteeDecision } from "@/components/review/CommitteeDecision";
+import { finalizeCase } from "@/lib/services/cases";
+import { useApp } from "@/components/providers/AppProvider";
+import { newId } from "@/lib/utils/id";
 
 export function CommitteeFinalizeClient({
   assessmentCase,
@@ -23,7 +25,7 @@ export function CommitteeFinalizeClient({
   employeeName: string;
   cycleName: string;
 }) {
-  const router = useRouter();
+  const { actor, refresh } = useApp();
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [note, setNote] = useState("");
   const [conflict, setConflict] = useState(false);
@@ -31,27 +33,23 @@ export function CommitteeFinalizeClient({
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function finalize() {
+  function finalize() {
     setBusy(true);
-    const res = await fetch(`/api/cases/${assessmentCase.caseId}/finalize`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      finalizeCase(actor, assessmentCase.caseId, {
         answers,
         decisionNote: note || "สรุปโดยกรรมการ",
         conflictDeclared: conflict,
         expectedVersion: version,
-        idempotencyKey: crypto.randomUUID(),
-      }),
-    });
-    const data = await res.json();
-    setBusy(false);
-    if (!res.ok) {
-      setMessage(data.error ?? "สรุปผลไม่สำเร็จ");
-      return;
+        idempotencyKey: newId(),
+      });
+      setMessage("สรุปผลสำเร็จ รอ HR เผยแพร่");
+      refresh();
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "สรุปผลไม่สำเร็จ");
+    } finally {
+      setBusy(false);
     }
-    setMessage("สรุปผลสำเร็จ รอ HR เผยแพร่");
-    router.refresh();
   }
 
   return (

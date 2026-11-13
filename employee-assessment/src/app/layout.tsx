@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Thai, Sarabun } from "next/font/google";
+import { AppProvider } from "@/components/providers/AppProvider";
 import "./globals.css";
 
 const sarabun = Sarabun({
@@ -16,16 +17,15 @@ const ibm = IBM_Plex_Sans_Thai({
 
 export const metadata: Metadata = {
   title: "AssessFlow — ระบบประเมินพนักงาน",
-  description: "Employee Assessment Workflow Platform (Phase 0 demo)",
+  description: "Employee Assessment Workflow Platform",
 };
-
-export const dynamic = "force-dynamic";
-
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="th" className={`${sarabun.variable} ${ibm.variable} h-full`}>
-      <body className="min-h-full antialiased">{children}</body>
+      <body className="min-h-full antialiased">
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }

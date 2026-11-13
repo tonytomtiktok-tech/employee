@@ -1,14 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/ui/badge";
-import { getShellData } from "@/lib/auth/server-data";
+import { Card } from "@/components/ui/card";
+import { useApp } from "@/components/providers/AppProvider";
 import { getCommitteeCases } from "@/lib/services/cases";
 import { memoryRepository } from "@/lib/repository/memory";
 import { hasRole } from "@/lib/permissions/roles";
-import { Card } from "@/components/ui/card";
 
-export default async function CommitteeCasesPage() {
-  const { user, roles, actor } = await getShellData();
+export default function CommitteeCasesPage() {
+  const { user, roles, actor } = useApp();
   const can = hasRole(actor.roles, "COMMITTEE") || hasRole(actor.roles, "HR_ADMIN");
   const cases = can
     ? getCommitteeCases(actor).map((c) => ({
