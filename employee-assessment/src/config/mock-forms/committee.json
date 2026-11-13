@@ -1,0 +1,67 @@
+{
+  "formId": "committee-review-2026",
+  "version": 1,
+  "stage": "COMMITTEE",
+  "title": "แบบสรุปผลโดยกรรมการ (ตัวอย่าง)",
+  "sections": [
+    {
+      "id": "committee_scores",
+      "title": "คะแนนอิสระของกรรมการ",
+      "questions": [
+        {
+          "id": "c01",
+          "type": "rating",
+          "label": "คะแนนสรุปสุดท้าย (performance)",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "performance"
+        },
+        {
+          "id": "c02",
+          "type": "rating",
+          "label": "ศักยภาพ (potential) ตามเกณฑ์แยกต่างหาก",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "potential"
+        },
+        {
+          "id": "c03",
+          "type": "single_select",
+          "label": "ข้อเสนอแนะ",
+          "required": true,
+          "options": [
+            "รักษาผลการปฏิบัติงาน",
+            "เร่งพัฒนา",
+            "มอบหมายงานท้าทายขึ้น",
+            "ติดตามใกล้ชิด",
+            "อื่น ๆ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committee_rationale",
+      "title": "เหตุผลและความโปร่งใส",
+      "questions": [
+        {
+          "id": "c04",
+          "type": "textarea",
+          "label": "เหตุผลของคะแนนและการต่างจาก self/manager",
+          "required": true,
+          "maxLength": 4000
+        },
+        {
+          "id": "c05",
+          "type": "single_select",
+          "label": "ประกาศความขัดแย้งทางผลประโยชน์",
+          "required": true,
+          "options": ["ไม่มี", "มี — ขอถอนตัว"]
+        }
+      ]
+    }
+  ]
+}

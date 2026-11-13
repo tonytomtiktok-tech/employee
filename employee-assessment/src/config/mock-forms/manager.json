@@ -1,0 +1,88 @@
+{
+  "formId": "manager-review-2026",
+  "version": 1,
+  "stage": "MANAGER",
+  "title": "แบบประเมินโดยหัวหน้า (ตัวอย่าง)",
+  "sections": [
+    {
+      "id": "manager_ratings",
+      "title": "การประเมินผลงาน",
+      "questions": [
+        {
+          "id": "m01",
+          "type": "rating",
+          "label": "ผลการปฏิบัติงานโดยรวม",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1.5,
+          "dimension": "performance"
+        },
+        {
+          "id": "m02",
+          "type": "rating",
+          "label": "การส่งมอบงานตามกำหนด",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "delivery"
+        },
+        {
+          "id": "m03",
+          "type": "rating",
+          "label": "การทำงานเป็นทีม",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "collaboration"
+        },
+        {
+          "id": "m04",
+          "type": "rating",
+          "label": "ศักยภาพในการเติบโต",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "growth"
+        }
+      ]
+    },
+    {
+      "id": "manager_comments",
+      "title": "หลักฐานและความเห็น",
+      "questions": [
+        {
+          "id": "m05",
+          "type": "textarea",
+          "label": "หลักฐานประกอบการประเมิน",
+          "required": true,
+          "maxLength": 3000
+        },
+        {
+          "id": "m06",
+          "type": "textarea",
+          "label": "จุดแข็ง",
+          "required": true,
+          "maxLength": 2000
+        },
+        {
+          "id": "m07",
+          "type": "textarea",
+          "label": "จุดที่ควรพัฒนา",
+          "required": true,
+          "maxLength": 2000
+        },
+        {
+          "id": "m08",
+          "type": "textarea",
+          "label": "แผนสนับสนุนจากหัวหน้า",
+          "required": true,
+          "maxLength": 2000
+        }
+      ]
+    }
+  ]
+}

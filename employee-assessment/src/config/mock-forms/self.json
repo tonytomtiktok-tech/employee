@@ -1,0 +1,87 @@
+{
+  "formId": "self-review-2026",
+  "version": 1,
+  "stage": "SELF",
+  "title": "แบบประเมินตนเอง (ตัวอย่าง)",
+  "sections": [
+    {
+      "id": "competency",
+      "title": "สมรรถนะในการทำงาน",
+      "questions": [
+        {
+          "id": "s01",
+          "type": "rating",
+          "label": "คุณภาพของผลงาน",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "performance"
+        },
+        {
+          "id": "s02",
+          "type": "rating",
+          "label": "การทำงานร่วมกับผู้อื่น",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "collaboration"
+        },
+        {
+          "id": "s03",
+          "type": "rating",
+          "label": "ความสามารถในการเรียนรู้สิ่งใหม่",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "learning"
+        },
+        {
+          "id": "s04",
+          "type": "rating",
+          "label": "การแก้ปัญหาและตัดสินใจ",
+          "required": true,
+          "min": 1,
+          "max": 5,
+          "weight": 1,
+          "dimension": "problem_solving"
+        }
+      ]
+    },
+    {
+      "id": "growth",
+      "title": "แผนพัฒนา",
+      "questions": [
+        {
+          "id": "s05",
+          "type": "textarea",
+          "label": "ผลงานที่ภาคภูมิใจพร้อมตัวอย่าง",
+          "required": true,
+          "maxLength": 3000
+        },
+        {
+          "id": "s06",
+          "type": "multi_select",
+          "label": "ทักษะที่อยากพัฒนา",
+          "required": true,
+          "options": [
+            "การสื่อสาร",
+            "การใช้เทคโนโลยี",
+            "การวิเคราะห์ข้อมูล",
+            "ภาวะผู้นำ",
+            "อื่น ๆ"
+          ]
+        },
+        {
+          "id": "s07",
+          "type": "textarea",
+          "label": "สิ่งที่ต้องการให้หัวหน้าช่วยสนับสนุน",
+          "required": false,
+          "maxLength": 3000
+        }
+      ]
+    }
+  ]
+}
