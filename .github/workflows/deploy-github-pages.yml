@@ -27,7 +27,7 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: employee-assessment/package-lock.json
-      - run: npm ci
+      - run: npm install --legacy-peer-deps
       - run: npm run build:pages
         env:
           GITHUB_PAGES: "true"
