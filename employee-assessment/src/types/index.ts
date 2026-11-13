@@ -37,9 +37,14 @@ export interface User {
   employeeCode: string;
   email: string;
   displayName: string;
+  /** Demo/local login password — visible to HR Admin only in this Phase 0 store. */
+  password: string;
   active: boolean;
   createdAt: string;
 }
+
+/** HR roster categories shown on admin user tables */
+export type RosterRole = "EMPLOYEE" | "MANAGER" | "COMMITTEE";
 
 export interface OrgUnit {
   orgUnitId: string;

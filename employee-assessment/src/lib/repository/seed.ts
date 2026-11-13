@@ -128,11 +128,13 @@ export function createSeedStore(): DataStore {
   for (let i = 1; i <= TOTAL; i++) {
     const first = FIRST_NAMES[(i - 1) % FIRST_NAMES.length];
     const last = LAST_NAMES[(i - 1) % LAST_NAMES.length];
+    const employeeCode = `E${String(i).padStart(4, "0")}`;
     const user: User = {
       userId: `user-${String(i).padStart(3, "0")}`,
-      employeeCode: `E${String(i).padStart(4, "0")}`,
+      employeeCode,
       email: demoEmail(i),
       displayName: `${first} ${last}`,
+      password: `Demo@${employeeCode}`,
       active: true,
       createdAt: now,
     };
