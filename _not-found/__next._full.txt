@@ -1,0 +1,24 @@
+1:"$Sreact.fragment"
+2:"/employee/_next/static/chunks/1tzdu105k569q.js"
+3:I[30068,["$2"],"AppProvider"]
+4:I[39756,["$2"],"default"]
+5:I[37457,["$2"],"default"]
+6:"/employee/_next/static/chunks/3zt_16xndew4w.js"
+7:I[22016,["$2","$6"],""]
+b:I[97367,["$2"],"OutletBoundary"]
+c:"$Sreact.suspense"
+e:"ViewportBoundary"
+f:I[97367,["$2"],"$e"]
+11:"MetadataBoundary"
+12:I[97367,["$2"],"$11"]
+14:I[68027,["$2"],"default",1]
+:HL["/employee/_next/static/chunks/2-03odipkpi71.css","style"]
+9:X
+a:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","div",null,{"className":"flex min-h-screen flex-col items-center justify-center gap-3 px-4 text-center","children":[["$","h1",null,{"className":"font-display text-2xl font-semibold","children":"ไม่พบหน้าหรือไม่มีสิทธิ์เข้าถึง"}],["$","p",null,{"className":"text-sm text-muted","children":"หากคิดว่าควรเข้าถึงได้ ให้ติดต่อ HR"}],["$","$L7",null,{"href":"/","className":"text-sm text-accent underline","children":"กลับหน้าแรก"}]]}],[["$","script","script-0",{"src":"/employee/_next/static/chunks/3zt_16xndew4w.js","async":true,"nonce":"$undefined"}]],["$","$Lb",null,{"children":["$","$c",null,{"name":"Next.MetadataOutlet","children":"$@d"}]}]]}],"p":false,"v":null}}]]
+8:[["children",{"s":"/_not-found","h":512,"d":{"r":["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":false,"v":"$9"},"c":"$Qa"}]]
+0:{"P":null,"c":["","_not-found",""],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/employee/_next/static/chunks/2-03odipkpi71.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/employee/_next/static/chunks/1tzdu105k569q.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"th","className":"X7YuJq_variable uiXZgq_variable h-full","children":["$","body",null,{"className":"min-h-full antialiased","children":["$","$L3",null,{"children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"flex min-h-screen flex-col items-center justify-center gap-3 px-4 text-center","children":[["$","h1",null,{"className":"font-display text-2xl font-semibold","children":"ไม่พบหน้าหรือไม่มีสิทธิ์เข้าถึง"}],["$","p",null,{"className":"text-sm text-muted","children":"หากคิดว่าควรเข้าถึงได้ ให้ติดต่อ HR"}],["$","$L7",null,{"href":"/","className":"text-sm text-accent underline","children":"กลับหน้าแรก"}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}]}]]}],"p":false,"v":null},"c":"$Q8"},"h":{"r":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$Lf",null,{"children":"$L10"}],["$","$L12",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$c",null,{"name":"Next.Metadata","children":"$L13"}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":false,"v":null}},"m":"$undefined","G":["$14",[["$","link","0",{"rel":"stylesheet","href":"/employee/_next/static/chunks/2-03odipkpi71.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"m4SNwt9QjG4rK-8DCKwzG"}
+9:C
+10:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+15:I[27201,["$2"],"IconMark"]
+d:null
+13:[["$","title","0",{"children":"AssessFlow — ระบบประเมินพนักงาน"}],["$","meta","1",{"name":"description","content":"Employee Assessment Workflow Platform"}],["$","link","2",{"rel":"icon","href":"/employee/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L15","3",{}]]
